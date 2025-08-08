@@ -2,19 +2,19 @@ package controller;
 
 import entity.Product;
 import dao.ProductDAOImpl;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.sql.Connection;
-
+import java.util.List;
 import static util.ConnectDB.getConnection;
 
 @WebServlet("/ProductServlet")
 public class ProductServlet extends HttpServlet {
-
+    // POST 요청 처리 (제품 등록 등)
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 파라미터 가져오기
         String prdName = request.getParameter("prdName");
@@ -40,12 +40,12 @@ public class ProductServlet extends HttpServlet {
         product.setPrdExp(expDate);
 
         // DB 연결 및 제품 등록
-        try (Connection conn = getConnection()) {  // getConnection()을 사용하여 DB 연결
+        try (Connection conn = getConnection()) {  // DB 연결
             ProductDAOImpl productDAO = new ProductDAOImpl(conn);
             productDAO.insertProduct(product); // 제품 등록
 
             // 등록 후, 목록 페이지로 리다이렉트
-            response.sendRedirect("main.jsp");
+            response.sendRedirect("ProductListServlet");  // 제품 목록 페이지로 리다이렉트
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().println("제품 등록 중 오류가 발생했습니다.");
