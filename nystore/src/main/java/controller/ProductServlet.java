@@ -9,17 +9,12 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+
+import static util.ConnectDB.getConnection;
 
 @WebServlet("/ProductServlet")
 public class ProductServlet extends HttpServlet {
 
-    // JDBC 연결 정보 (데이터베이스 연결)
-    private static final String URL = "jdbc:mysql://localhost:3306/your_database";
-    private static final String USER = "your_username";
-    private static final String PASSWORD = "your_password";
-    
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 파라미터 가져오기
         String prdName = request.getParameter("prdName");
@@ -28,7 +23,7 @@ public class ProductServlet extends HttpServlet {
         char prdAdult = request.getParameter("prdAdult").charAt(0);
         String prdExp = request.getParameter("prdExp");
         int prdStock = Integer.parseInt(request.getParameter("prdStock"));
-        
+
         // 유통기한 처리 (빈 값일 경우 null 처리)
         java.sql.Date expDate = null;
         if (prdExp != null && !prdExp.isEmpty()) {
@@ -44,14 +39,14 @@ public class ProductServlet extends HttpServlet {
         product.setPrdStock(prdStock);
         product.setPrdExp(expDate);
 
-        // 데이터베이스 연결 및 제품 등록
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
+        // DB 연결 및 제품 등록
+        try (Connection conn = getConnection()) {  // getConnection()을 사용하여 DB 연결
             ProductDAOImpl productDAO = new ProductDAOImpl(conn);
-            productDAO.insertProduct(product);
-            
-            // 등록 후, 목록 페이지로 리다이렉트 (등록 완료 후 리다이렉트)
-            response.sendRedirect("productList.jsp");
-        } catch (SQLException e) {
+            productDAO.insertProduct(product); // 제품 등록
+
+            // 등록 후, 목록 페이지로 리다이렉트
+            response.sendRedirect("main.jsp");
+        } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().println("제품 등록 중 오류가 발생했습니다.");
         }
