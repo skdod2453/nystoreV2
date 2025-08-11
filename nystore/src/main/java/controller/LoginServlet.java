@@ -15,7 +15,6 @@ import static util.ConnectDB.getConnection;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
 	public LoginServlet() {
 		super();

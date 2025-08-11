@@ -9,7 +9,7 @@ public class ConnectDB {
         Connection connection = null;
 
         // 직접 DB 정보 입력
-        String url = "jdbc:oracle:thin:@10.10.108.158:1521:XE"; // 여러분의 DB 주소
+        String url = "jdbc:oracle:thin:@10.10.108.193:1521:XE"; // 여러분의 DB 주소
         String user = "c##nystore"; // 사용자 계정
         String password = "nystore"; // 비밀번호
 
