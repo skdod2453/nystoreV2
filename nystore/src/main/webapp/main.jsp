@@ -17,7 +17,7 @@
 <a href="pdCheck.jsp">2. 제품(재고) 확인</a><br/>
 <a href="ramdom.jsp">3. 물품 입고</a><br/>
 <a href="cart.jsp">4. 계산</a><br/>
-<a href="salesCheck.jsp.">5. 매출 확인</a><br/>
+<a href="salesCheck.jsp">5. 매출 확인</a><br/>
 <a href="logout.jsp">6. 로그아웃</a>
 </body>
 </html>
