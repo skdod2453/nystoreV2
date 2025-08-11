@@ -36,7 +36,13 @@ public class LoginServlet extends HttpServlet {
 				// 로그인 성공
 				HttpSession session = request.getSession();
 				session.setAttribute("employee", employee);
-
+				try {
+			           dao.ProductDAOImpl productDAO = new dao.ProductDAOImpl(conn);
+			           java.util.List<entity.Product> products = productDAO.getAllProducts();
+			           session.setAttribute("products", products);
+			       } catch (Exception e) {
+			           e.printStackTrace();
+			       }
 				response.sendRedirect("main.jsp"); // 메인 페이지로 이동
 			} else {
 				// 로그인 실패
